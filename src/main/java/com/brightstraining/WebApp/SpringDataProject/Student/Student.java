@@ -13,6 +13,13 @@ public class Student {
     private int age;
     private String email;
 
+    public Student(String name, String lastName, int age, String email) {
+        this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+    }
+
     public Long getId() {
         return id;
     }
