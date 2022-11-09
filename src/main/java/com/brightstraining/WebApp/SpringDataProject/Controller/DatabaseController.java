@@ -22,9 +22,12 @@ public class DatabaseController {
     public ResponseEntity<String> addNewStudentToTheDatabase() {
         Student student = new Student();
         student.setName("Ioanna");
+        student.setAge(36);
+        student.setLastName("Yfanti");
+        student.setEmail("i.yfanti@cosmote-evalue.gr");
 
         studentRepository.save(student);
 
-        return ResponseEntity.ok("Save " + student.getName() + " to database.");
+        return ResponseEntity.ok("Save " + student.getName() +" " +student.getLastName() + " " + student.getAge()+ " " +student.getEmail() + " to database.");
     }
 }
