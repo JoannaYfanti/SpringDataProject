@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class AddToDBServiceImpl implements AddToDBService {
+
+    private String studentList ="";
     @Override
-    public String addNewStudent(@RequestParam String name, @RequestParam String lastName, @RequestParam String age, @RequestParam String email, StudentRepository studentRepository) {
+    public void  addNewStudent(@RequestParam String name, @RequestParam String lastName, @RequestParam String age, @RequestParam String email, StudentRepository studentRepository) {
         Student student = new Student(name, lastName, Integer.parseInt(age), email);
-
         studentRepository.save(student);
-
-        return "Save " + student.getName() +" " +student.getLastName() + " " + student.getAge()+ " " +student.getEmail() + " to database.";
     }
 }

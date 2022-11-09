@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class DatabaseController {
     private StudentRepository studentRepository;
@@ -45,6 +48,15 @@ public class DatabaseController {
 
     @PostMapping("/added")
     public ResponseEntity<String> successfullyAdded(@RequestParam String name, @RequestParam String lastName, @RequestParam String age, @RequestParam String email) {
-        return ResponseEntity.ok(addToDBService.addNewStudent(name, lastName, age, email, studentRepository));
+//        return ResponseEntity.ok(addToDBService.addNewStudent(name, lastName, age, email, studentRepository));
+        String studentAttributes = "<dl>";
+        addToDBService.addNewStudent( name, lastName,age, email, studentRepository);
+        List<Student> students = (List<Student>) studentRepository.findAll();
+        for (Student newStudents:students) {
+            studentAttributes += "<dt>" + newStudents.getName() + " " + newStudents.getLastName() + "</dt><dd>" + newStudents.getAge()+"</dd><dd>" + newStudents.getEmail() + "</dd>";
+        }
+        return ResponseEntity.ok(studentAttributes + "</dl>");
     }
+
+
 }
