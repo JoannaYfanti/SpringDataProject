@@ -56,7 +56,7 @@ public class DatabaseController {
         addToDBService.addNewStudent( name, lastName,age, email, studentRepository);
         List<Student> students = (List<Student>) studentRepository.findAll();
         for (Student student:students) {
-            studentAttributes += "<dt>" + student.getName() + " " + student.getLastName()  + "  " + "<button name=\"studentToDeleteById\" value = \"" + student.getId() + "\">Remove</button><button formaction=\"/edit\" formmethod=\"GET\" name=\"studentToEditById\" value = \"" + student.getId() + "\">Edit</button></dt><dd>" + student.getAge()+"</dd><dd>" + student.getEmail() + "</dd>";
+            studentAttributes += "<dt>" + student.getName() + " " + student.getLastName()  + "  " + "<button name=\"studentToDeleteById\" value = \"" + student.getId() + "\">Remove</button>"+ "  " +"<button formaction=\"/edit\" formmethod=\"GET\" name=\"studentToEditById\" value = \"" + student.getId() + "\">Edit</button></dt><dd>" + student.getAge()+"</dd><dd>" + student.getEmail() + "</dd>";
         }
         return ResponseEntity.ok(studentAttributes + "</dl></form>");
 
