@@ -28,7 +28,8 @@ public class CreateFormServiceImpl implements CreateFormService {
                 "<button>Add</button>" +
                 dropDownListForStudents +
                 "<button formaction=\"/update\" formmethod=\"GET\">Update</button>" +
-                "<button formaction=\"/delete\" method=\"POST\">Remove</button>" +
+                "<button formaction=\"/delete\" formmethod=\"POST\">Remove</button>" +
+                "<button formaction=\"/search\" formmethod=\"GET\">Search</button>" +
                 "</form>");
     }
 
@@ -54,5 +55,11 @@ public class CreateFormServiceImpl implements CreateFormService {
         return ResponseEntity.ok(studentAttributes + "</dl></form>");
     }
 
-
+    @Override
+    public ResponseEntity<String> createSearchForm() {
+        return ResponseEntity.ok("<form action =\"/searchresult\" method=\"GET\">" +
+                "<input name=\"property\" placeholder =\"First Name, Last Name, Age, Email\">" +
+                "<button>Go</button>" +
+                "</form>");
+    }
 }

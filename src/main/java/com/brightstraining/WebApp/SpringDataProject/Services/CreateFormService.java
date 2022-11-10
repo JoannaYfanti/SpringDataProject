@@ -14,4 +14,6 @@ public interface CreateFormService {
     ResponseEntity<String> createUpdateForm(Student studentToUpdate);
 
     ResponseEntity<String> createAddedForm(List<Student> students);
+
+    ResponseEntity<String> createSearchForm();
 }
