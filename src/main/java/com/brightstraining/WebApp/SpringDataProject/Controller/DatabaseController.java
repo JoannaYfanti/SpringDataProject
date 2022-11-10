@@ -44,26 +44,33 @@ public class DatabaseController {
                 "<input name=\"email\" placeholder=\"Student's email address\">" +
                 "<button>Add</button>" +
                 listOfStudents+
-                "<button formaction=\"/update\" method=\"POST\">Update</button>" +
+                "<button formaction=\"/update\" formmethod=\"GET\">Update</button>" +
                 "<button formaction=\"/delete\" method=\"POST\">Remove</button>" +
                 "</form>");
     }
 
     @PostMapping("/added")
     public ResponseEntity<String> successfullyAdded(@RequestParam String name, @RequestParam String lastName, @RequestParam String age, @RequestParam String email) {
-//        return ResponseEntity.ok(addToDBService.addNewStudent(name, lastName, age, email, studentRepository));
-        String studentAttributes = "<dl>";
+
+        String studentAttributes = "<form action=\"/added/delete\" method=\"POST\"><dl>";
         addToDBService.addNewStudent( name, lastName,age, email, studentRepository);
         List<Student> students = (List<Student>) studentRepository.findAll();
-        for (Student newStudents:students) {
-            studentAttributes += "<dt>" + newStudents.getName() + " " + newStudents.getLastName() + "</dt><dd>" + newStudents.getAge()+"</dd><dd>" + newStudents.getEmail() + "</dd>";
+        for (Student student:students) {
+            studentAttributes += "<dt>" + student.getName() + " " + student.getLastName()  + "  " + "<button name=\"studentToDeleteById\" value = \"" + student.getId() + "\">Remove</button><button formaction=\"/edit\" formmethod=\"GET\" name=\"studentToEditById\" value = \"" + student.getId() + "\">Edit</button></dt><dd>" + student.getAge()+"</dd><dd>" + student.getEmail() + "</dd>";
         }
-        return ResponseEntity.ok(studentAttributes + "</dl>");
+        return ResponseEntity.ok(studentAttributes + "</dl></form>");
+
+    }
+    @PostMapping("/added/delete")
+    public ResponseEntity<String> removeStudentAfterAdd(@RequestParam String studentToDeleteById) {
+
+      studentRepository.deleteById(Long.parseLong(studentToDeleteById));
+
+        return ResponseEntity.ok("Student deleted");
     }
 
     @PostMapping("/delete")
     public ResponseEntity<String> removeStudent(@RequestParam String listOfStudents) {
-//        return ResponseEntity.ok(addToDBService.addNewStudent(name, lastName, age, email, studentRepository));
 
         List<Student> students = (List<Student>) studentRepository.findAll();
         for (Student student:students) {
@@ -75,7 +82,8 @@ public class DatabaseController {
         }
         return ResponseEntity.ok("Student deleted");
     }
-    @PostMapping("/update")
+    @GetMapping("/update")
+    @ResponseBody
     public ResponseEntity <String> updateStudent (@RequestParam String listOfStudents){
 
         List<Student> students = (List<Student>) studentRepository.findAll();
@@ -88,19 +96,17 @@ public class DatabaseController {
             }
 
             }
-
-        return ResponseEntity.ok("<form action=\"/updated\" method=\"GET\">" +
+        return ResponseEntity.ok("<form action=\"/updated\" method=\"POST\">" +
                 "<input name=\"name\" value= " + studentToUpdate.getName()+">" +
                 "<input name=\"lastName\" value= " + studentToUpdate.getLastName()+ ">" +
                 "<input name=\"age\" value=" + studentToUpdate.getAge()+ ">"+
                 "<input name=\"email\" value=" + studentToUpdate.getEmail()+ ">"+
-                "<input name=\"id\" disabled=\"disabled\" value=" + studentToUpdate.getId()+ ">"+
+                "<input name=\"id\" readonly value=" + studentToUpdate.getId()+ ">"+
                 "<button>Save</button>" +
                 "</form>");
-
     }
-    @GetMapping("/updated")
-    @ResponseBody
+    @PostMapping("/updated")
+
     public ResponseEntity <String> modifyStudent (@RequestParam Long id, @RequestParam String name, @RequestParam String lastName, @RequestParam String age, @RequestParam String email){
         Student studentToModify = (Student) studentRepository.findById(id).get();
 
@@ -112,9 +118,24 @@ public class DatabaseController {
         studentRepository.save(studentToModify);
 
 
-        return ResponseEntity.ok(studentToModify.getName());
+        return ResponseEntity.ok("Student " +studentToModify.getName() + " " + studentToModify.getLastName() + " is updated.");
     }
 
+    @GetMapping("/edit")
+    @ResponseBody
+    public ResponseEntity <String> editStudent(@RequestParam String studentToEditById){
+
+        Student studentToEdit =  studentRepository.findById(Long.parseLong(studentToEditById)).get();
+        studentRepository.findById(Long.parseLong(studentToEditById)).get();
 
 
+        return  ResponseEntity.ok("<form action=\"/updated\" method=\"POST\">" +
+                "<input name=\"name\" value= " + studentToEdit.getName()+">" +
+                "<input name=\"lastName\" value= " + studentToEdit.getLastName()+ ">" +
+                "<input name=\"age\" value=" + studentToEdit.getAge()+ ">"+
+                "<input name=\"email\" value=" + studentToEdit.getEmail()+ ">"+
+                "<input name=\"id\" readonly value=" + studentToEdit.getId()+ ">"+
+                "<button>Save</button>" +
+                "</form>");
+    }
 }
