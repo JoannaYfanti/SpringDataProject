@@ -1,4 +1,6 @@
-package com.brightstraining.WebApp.SpringDataProject.Student;
+package com.brightstraining.WebApp.SpringDataProject.Entities;
+
+import com.brightstraining.WebApp.SpringDataProject.Repositories.StudentRepository;
 
 import javax.persistence.*;
 
@@ -12,8 +14,6 @@ public class Student {
     private String lastName;
     private int age;
     private String email;
-
-
 
     public Student(String name, String lastName, int age, String email) {
         this.name = name;

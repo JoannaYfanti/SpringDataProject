@@ -1,6 +1,6 @@
-package com.brightstraining.WebApp.SpringDataProject.AddToDatabase;
+package com.brightstraining.WebApp.SpringDataProject.Services;
 
-import com.brightstraining.WebApp.SpringDataProject.Student.StudentRepository;
+import com.brightstraining.WebApp.SpringDataProject.Repositories.StudentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
