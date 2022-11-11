@@ -6,6 +6,9 @@ import javax.persistence.*;
 
 @Entity
 public class Student {
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)

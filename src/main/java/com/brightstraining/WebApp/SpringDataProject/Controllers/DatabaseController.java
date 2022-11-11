@@ -84,13 +84,21 @@ public class DatabaseController {
     @GetMapping("/searchresult")
     @ResponseBody
     public ResponseEntity<String> searchStudentResult(@RequestParam String property){
-        List<Student> students = studentService.getStudentRepository().findStudentByName(property);
-        String studentProperties = "";
+        int age = 0 ;
+        if (property.matches("\\d+")){
+            age = Integer.parseInt(property);
+        }
+//        List<Student> students = studentService.getStudentRepository().findStudentByName(property);
+        List<Student> students = studentService.getStudentRepository().findStudentByNameOrLastNameOrAgeOrEmail(property,property, age, property);
+        String result = "";
         for(Student student : students){
-           studentProperties += student.getName() + student.getLastName() + student.getAge() + student.getEmail() ;
+           result +=  student.getName()+ " " + student.getLastName() + " " + student.getAge() + " " + student.getEmail() + "</br>" ;
+        }
+        if(result.isEmpty()){
+            return ResponseEntity.ok("No student found.");
         }
 
-        return ResponseEntity.ok(studentProperties);
+        return ResponseEntity.ok(result);
 
     }
 
