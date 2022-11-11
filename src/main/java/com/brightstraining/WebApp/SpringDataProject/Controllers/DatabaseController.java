@@ -19,14 +19,16 @@ public class DatabaseController {
     private StudentService studentService;
     private UpdateToDBService updateToDBService;
     private DeleteFromDBService deleteFromDBService;
+    private CourseService courseService;
 
     @Autowired
-    public DatabaseController(AddToDBService addToDBService, CreateFormService createFormService, StudentService studentService, UpdateToDBService updateToDBService, DeleteFromDBService deleteFromDBService) {
+    public DatabaseController(AddToDBService addToDBService, CreateFormService createFormService, StudentService studentService, UpdateToDBService updateToDBService, DeleteFromDBService deleteFromDBService, CourseService courseService) {
         this.addToDBService = addToDBService;
         this.createFormService = createFormService;
         this.studentService = studentService;
         this.updateToDBService = updateToDBService;
         this.deleteFromDBService = deleteFromDBService;
+        this. courseService = courseService;
     }
 
     @GetMapping("/")
@@ -36,8 +38,8 @@ public class DatabaseController {
     }
 
     @PostMapping("/added")
-    public ResponseEntity<String> successfullyAdded(@RequestParam String name, @RequestParam String lastName, @RequestParam String age, @RequestParam String email) {
-        addToDBService.addNewStudent(name, lastName, age, email, studentService.getStudentRepository());
+    public ResponseEntity<String> successfullyAdded(@RequestParam String name, @RequestParam String lastName, @RequestParam String age, @RequestParam String email, @RequestParam String courseId) {
+        addToDBService.addNewStudent(name, lastName, age, email, studentService.getStudentRepository(), courseService.getRepository().findCourseById(Long.parseLong(courseId)));
 
         return createFormService.createAddedForm(studentService.createListFromStudent());
     }
@@ -100,6 +102,12 @@ public class DatabaseController {
 
         return ResponseEntity.ok(result);
 
+    }
+
+    @PostMapping("/courseadded")
+    public ResponseEntity<String> successfullyAdded(@RequestParam String courseName) {
+        addToDBService.addNewCourse(courseName, courseService.getRepository());
+        return ResponseEntity.ok("Added " + courseName + " to our Course table.");
     }
 
 }

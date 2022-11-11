@@ -25,11 +25,15 @@ public class CreateFormServiceImpl implements CreateFormService {
                 "<input name=\"lastName\" placeholder=\"Student's last name\">" +
                 "<input name=\"age\" placeholder=\"Student's age\">" +
                 "<input name=\"email\" placeholder=\"Student's email address\">" +
+                "<input name=\"courseId\" placeholder=\"Course's ID\">" +
                 "<button>Add</button>" +
                 dropDownListForStudents +
                 "<button formaction=\"/update\" formmethod=\"GET\">Update</button>" +
                 "<button formaction=\"/delete\" formmethod=\"POST\">Remove</button>" +
                 "<button formaction=\"/search\" formmethod=\"GET\">Search</button>" +
+                "</br>" +
+                "<input name=\"courseName\" placeholder=\"Course's name\">" +
+                "<button formaction=\"/courseadded\" formmethod=\"POST\">Add</button>" +
                 "</form>");
     }
 
